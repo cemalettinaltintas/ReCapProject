@@ -19,7 +19,7 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             //brandManager.Add(new Brand { Name = "Tofas" });
             //brandManager.Delete(brandManager.GetById(6));
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 if (brand.Id == 6)
                 {
@@ -33,17 +33,17 @@ namespace ConsoleUI
         private static void CarTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-
-            //Car car1 = new Car();
-            //car1.BrandId = 5;
-            //car1.ColorId = 3;
-            //car1.DailyPrice = 112;
-            //car1.Descriptions = "Renault Fluence Business";
-            //car1.ModelYear = 2011;
-            //carManager.Add(car1);
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success)
             {
-                Console.WriteLine(car.BrandName + "-"+car.ColorName+"-"+car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.BrandName + "-" + car.ColorName + "-" + car.DailyPrice);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
         }
     }
